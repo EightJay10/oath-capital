@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meridian Capital — The Apartment Investor's Edge</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --offwhite: #f5f3ef;
+    --cream: #ede9e1;
+    --gold: #c9a84c;
+    --gold-light: #e8d5a3;
+    --gray: #6b6b6b;
+    --mid: #2a2a2a;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--offwhite);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 28px 60px;
+    background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent);
+  }
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .nav-cta {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--offwhite);
+    text-decoration: none;
+    border-bottom: 1px solid var(--gold);
+    padding-bottom: 2px;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+  }
+  .nav-cta:hover { opacity: 1; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 50%, rgba(201,168,76,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,168,76,0.04) 0%, transparent 50%);
+  }
+
+  /* Vertical line accent */
+  .hero::before {
+    content: '';
+    position: absolute;
+    left: 50%; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(201,168,76,0.3) 30%, rgba(201,168,76,0.3) 70%, transparent);
+  }
+
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 140px 60px 80px 60px;
+    position: relative; z-index: 1;
+  }
+
+  .eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 5vw, 4.8rem);
+    font-weight: 300;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 0.4s;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .hero-sub {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: rgba(245,243,239,0.6);
+    max-width: 400px;
+    margin-bottom: 52px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 0.6s;
+  }
+
+  .stats-row {
+    display: flex; gap: 40px;
+    margin-bottom: 52px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 0.7s;
+  }
+  .stat-item {}
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(245,243,239,0.45);
+    margin-top: 4px;
+  }
+
+  /* ── FORM PANEL ── */
+  .hero-right {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 140px 60px 80px 70px;
+    position: relative; z-index: 1;
+  }
+
+  .form-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 52px 44px;
+    position: relative;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.8s;
+  }
+
+  /* Corner accents */
+  .form-card::before, .form-card::after {
+    content: '';
+    position: absolute;
+    width: 20px; height: 20px;
+    border-color: var(--gold);
+    border-style: solid;
+  }
+  .form-card::before { top: -1px; right: -1px; border-width: 1px 1px 0 0; }
+  .form-card::after  { bottom: -1px; left: -1px; border-width: 0 0 1px 1px; }
+
+  .form-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .form-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.9rem;
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .form-desc {
+    font-size: 0.82rem;
+    color: rgba(245,243,239,0.5);
+    line-height: 1.6;
+    margin-bottom: 36px;
+  }
+
+  .form-group { margin-bottom: 16px; }
+
+  .form-group label {
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,243,239,0.4);
+    margin-bottom: 8px;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--offwhite);
+    padding: 14px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.25s;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .form-group input::placeholder { color: rgba(245,243,239,0.25); }
+  .form-group input:focus,
+  .form-group select:focus { border-color: var(--gold); }
+
+  .form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23c9a84c'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    cursor: pointer;
+  }
+  .form-group select option { background: #1a1a1a; color: var(--offwhite); }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .btn-primary {
+    width: 100%;
+    margin-top: 24px;
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    padding: 17px 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.25s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(255,255,255,0.12);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover { background: var(--gold-light); }
+  .btn-primary:hover::after { opacity: 1; }
+  .btn-primary:active { transform: scale(0.99); }
+
+  .form-note {
+    font-size: 0.68rem;
+    color: rgba(245,243,239,0.3);
+    text-align: center;
+    margin-top: 16px;
+    line-height: 1.5;
+  }
+
+  /* ── WHAT'S INSIDE ── */
+  .inside-section {
+    padding: 120px 60px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 300;
+    line-height: 1.15;
+    max-width: 500px;
+    margin-bottom: 80px;
+  }
+
+  .chapters-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .chapter-item {
+    background: var(--black);
+    padding: 48px 36px;
+    transition: background 0.3s;
+  }
+  .chapter-item:hover { background: rgba(201,168,76,0.04); }
+
+  .chapter-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: rgba(201,168,76,0.2);
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+
+  .chapter-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--offwhite);
+    margin-bottom: 14px;
+    line-height: 1.3;
+  }
+
+  .chapter-desc {
+    font-size: 0.82rem;
+    color: rgba(245,243,239,0.45);
+    line-height: 1.7;
+  }
+
+  /* ── SOCIAL PROOF ── */
+  .proof-section {
+    padding: 100px 60px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .proof-left .section-title { margin-bottom: 0; }
+
+  .testimonials {
+    display: flex; flex-direction: column; gap: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .testimonial {
+    background: var(--black);
+    padding: 40px 36px;
+  }
+
+  .quote-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    color: var(--gold);
+    line-height: 0.6;
+    margin-bottom: 20px;
+    opacity: 0.5;
+  }
+
+  .quote-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.65;
+    color: rgba(245,243,239,0.8);
+    margin-bottom: 24px;
+  }
+
+  .quote-author {
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .quote-role {
+    font-size: 0.68rem;
+    color: rgba(245,243,239,0.3);
+    margin-top: 3px;
+  }
+
+  /* ── FINAL CTA ── */
+  .final-cta {
+    padding: 130px 60px;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .final-cta::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .final-cta .section-title {
+    max-width: 640px;
+    margin: 0 auto 16px;
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+  }
+
+  .final-cta .hero-sub {
+    max-width: 440px;
+    margin: 0 auto 48px;
+  }
+
+  .btn-outline {
+    display: inline-block;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 16px 48px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    background: transparent;
+    transition: background 0.25s, color 0.25s;
+  }
+  .btn-outline:hover {
+    background: var(--gold);
+    color: var(--black);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 40px 60px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.7;
+  }
+  .footer-note {
+    font-size: 0.68rem;
+    color: rgba(245,243,239,0.2);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SUCCESS STATE ── */
+  .success-msg {
+    display: none;
+    text-align: center;
+    padding: 40px 0;
+  }
+  .success-icon {
+    width: 52px; height: 52px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px;
+    font-size: 1.2rem;
+    color: var(--gold);
+  }
+  .success-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 300;
+    margin-bottom: 12px;
+  }
+  .success-sub {
+    font-size: 0.82rem;
+    color: rgba(245,243,239,0.5);
+    line-height: 1.6;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 24px 28px; }
+    .hero { grid-template-columns: 1fr; }
+    .hero::before { display: none; }
+    .hero-left { padding: 120px 28px 48px; }
+    .hero-right { padding: 0 28px 80px; }
+    .inside-section, .proof-section, .final-cta, footer { padding: 80px 28px; }
+    .proof-section { grid-template-columns: 1fr; gap: 40px; }
+    .chapters-grid { grid-template-columns: 1fr; }
+    .stats-row { gap: 28px; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo" style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:#f4f1eb;">Oath<span style="color:#c9a84c">.</span>Capital</a>
+  <div style="display:flex;align-items:center;gap:40px;">
+    <a href="how-it-works.html" style="font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(244,241,235,0.45);text-decoration:none;">How It Works</a>
+    <a href="why-us.html" style="font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(244,241,235,0.45);text-decoration:none;">Why Us</a>
+    <a href="contact.html" style="font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(244,241,235,0.45);text-decoration:none;">Contact</a>
+    <a href="invest.html" class="nav-cta">Invest Today</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+
+  <div class="hero-left">
+    <p class="eyebrow">Exclusive Investor Resource — 2024 Edition</p>
+    <h1 class="hero-title">
+      The <em>Accredited Investor's</em><br>
+      Playbook for<br>
+      Multi-Family Returns
+    </h1>
+    <p class="hero-sub">
+      A comprehensive guide to identifying, underwriting, and profiting from apartment investments — written for sophisticated investors who expect more than average.
+    </p>
+
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-num">$340M+</div>
+        <div class="stat-label">Assets Managed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">18.4%</div>
+        <div class="stat-label">Avg. IRR</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">42</div>
+        <div class="stat-label">Properties Acquired</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="hero-right" id="get-guide">
+    <div class="form-card">
+      <p class="form-eyebrow">Download Free — Instant Access</p>
+      <h2 class="form-title">Get the Guide. Start Investing Smarter.</h2>
+      <p class="form-desc">Enter your details below and receive the 47-page guide directly to your inbox within minutes.</p>
+
+      <form id="lead-form">
+  <input type="hidden" name="_subject" value="New Lead — Oath Capital Investor Guide">
+  <input type="hidden" name="_next" value="thank-you.html">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" placeholder="James" id="fname" name="full_name">
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" placeholder="Morgan" id="lname" name="last_name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="james@example.com" id="email" name="email">
+        </div>
+        <div class="form-group">
+          <label>Investment Range</label>
+          <select id="investment" name="investment_range">
+            <option value="" disabled selected>Select your range</option>
+            <option>$100K – $250K</option>
+            <option>$250K – $500K</option>
+            <option>$500K – $1M</option>
+            <option>$1M+</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Are you an accredited investor?</label>
+          <select id="accredited" name="accredited_status">
+            <option value="" disabled selected>Select one</option>
+            <option>Yes — I meet the requirements</option>
+            <option>Not yet, but I'm exploring options</option>
+          </select>
+        </div>
+
+        <button class="btn-primary" onclick="handleSubmit()">
+          Download Free Guide →
+        </button>
+        <p class="form-note">No spam. Unsubscribe anytime.<br>Your information is kept strictly confidential.</p>
+      </div>
+
+      <div class="success-msg" id="success-msg">
+        <div class="success-icon">✓</div>
+        <h3 class="success-title">Guide on its way.</h3>
+        <p class="success-sub">Check your inbox — your copy of the guide is being delivered now. One more step awaits below.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S INSIDE -->
+<section class="inside-section">
+  <p class="section-label">Inside the Guide</p>
+  <h2 class="section-title">47 Pages. Zero Fluff.<br>Pure Strategy.</h2>
+
+  <div class="chapters-grid">
+    <div class="chapter-item">
+      <div class="chapter-num">01</div>
+      <h3 class="chapter-title">Why Multi-Family Outperforms Every Other Asset Class</h3>
+      <p class="chapter-desc">The data behind apartment investing's consistent outperformance over the past 30 years — and why it holds even in downturns.</p>
+    </div>
+    <div class="chapter-item">
+      <div class="chapter-num">02</div>
+      <h3 class="chapter-title">The Underwriting Framework We Use on Every Deal</h3>
+      <p class="chapter-desc">Cap rates, cash-on-cash returns, and the specific metrics our team uses to filter thousands of listings down to a select few.</p>
+    </div>
+    <div class="chapter-item">
+      <div class="chapter-num">03</div>
+      <h3 class="chapter-title">Passive vs. Active: Choosing the Right Structure</h3>
+      <p class="chapter-desc">GP vs. LP positions explained. How syndications work, what fees to expect, and how to evaluate sponsors like a professional.</p>
+    </div>
+    <div class="chapter-item">
+      <div class="chapter-num">04</div>
+      <h3 class="chapter-title">Tax Advantages That Change Everything</h3>
+      <p class="chapter-desc">Cost segregation, bonus depreciation, and how sophisticated investors use real estate to offset W-2 and capital gains income.</p>
+    </div>
+    <div class="chapter-item">
+      <div class="chapter-num">05</div>
+      <h3 class="chapter-title">How to Evaluate a Sponsor Before You Write a Check</h3>
+      <p class="chapter-desc">The 12 questions to ask any operator. Red flags, deal breakers, and the markers of a best-in-class management team.</p>
+    </div>
+    <div class="chapter-item">
+      <div class="chapter-num">06</div>
+      <h3 class="chapter-title">Building a Portfolio That Generates Generational Wealth</h3>
+      <p class="chapter-desc">Scaling from a single investment to a diversified portfolio — with real examples from investors who've done it in under 5 years.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="proof-section">
+  <div class="proof-left">
+    <p class="section-label">Investor Voices</p>
+    <h2 class="section-title">What Our Investors Say</h2>
+  </div>
+
+  <div class="testimonials">
+    <div class="testimonial">
+      <div class="quote-mark">"</div>
+      <p class="quote-text">This guide answered questions I'd been embarrassed to ask. I deployed my first $300K six weeks after reading it. The returns have been exactly what was projected.</p>
+      <div class="quote-author">Michael R.</div>
+      <div class="quote-role">Tech Executive — Invested $300K across 2 deals</div>
+    </div>
+    <div class="testimonial">
+      <div class="quote-mark">"</div>
+      <p class="quote-text">I've read dozens of real estate books. This is the only one that treats you like an adult. Meridian's approach is methodical, transparent, and it performs.</p>
+      <div class="quote-author">Sarah K.</div>
+      <div class="quote-role">Portfolio Manager — $1.2M invested with Meridian</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <p class="section-label">Ready to Start?</p>
+  <h2 class="section-title">Get the Guide. Then Let's Talk.</h2>
+  <p class="hero-sub">Download the playbook above — and if you like what you read, schedule a no-obligation call with our investor relations team.</p>
+  <a href="#get-guide" class="btn-outline">Download Free Guide</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Meridian Capital</div>
+  <p class="footer-note">© 2024 Meridian Capital Group. For accredited investors only. Past performance does not guarantee future results.</p>
+</footer>
+
+<script>
+  function handleSubmit() {
+    const required = ['fname','email','investment','accredited'];
+    let valid = true;
+    required.forEach(function(id) {
+      const el = document.getElementById(id);
+      if (!el || !el.value.trim()) {
+        if (el) { el.style.border = '1px solid rgba(201,168,76,0.7)'; setTimeout(function(){ el.style.border=''; }, 1800); }
+        valid = false;
+      }
+    });
+    if (!valid) return;
+    var form = document.getElementById('lead-form');
+    var data = new FormData(form);
+    fetch('https://formspree.io/f/mpqylqae', {
+      method: 'POST', body: data, headers: { 'Accept': 'application/json' }
+    }).then(function(res) {
+      document.getElementById('success-msg').style.display = 'block';
+      form.style.display = 'none';
+    }).catch(function() {
+      document.getElementById('success-msg').style.display = 'block';
+      form.style.display = 'none';
+    });
+  }
+
+  // Scroll-triggered fade-in for sections
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.chapter-item, .testimonial').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>

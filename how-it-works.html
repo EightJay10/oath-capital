@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How It Works — Oath Capital</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --black:#080808; --surface:#111111; --surface2:#161616;
+  --offwhite:#f4f1eb; --gold:#c9a84c;
+  --gold-dim:rgba(201,168,76,0.12); --gold-line:rgba(201,168,76,0.28);
+  --muted:rgba(244,241,235,0.45); --faint:rgba(244,241,235,0.16);
+  --rule:rgba(244,241,235,0.07);
+}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--offwhite);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;cursor:none;}
+.cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid var(--gold-line);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.022;pointer-events:none;z-index:1000;}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:32px 64px;transition:padding .4s,background .4s;}
+nav.scrolled{padding:20px 64px;background:rgba(8,8,8,0.96);border-bottom:1px solid var(--rule);backdrop-filter:blur(12px);}
+.logo{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--offwhite);text-decoration:none;}
+.logo span{color:var(--gold);}
+.nav-links{display:flex;align-items:center;gap:48px;}
+.nav-links a{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--offwhite);}
+.nav-cta{color:var(--gold)!important;border:1px solid var(--gold-line);padding:10px 24px;transition:background .25s!important;}
+.nav-cta:hover{background:var(--gold-dim);border-color:var(--gold)!important;}
+/* HERO */
+.page-hero{min-height:70vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 64px 100px;position:relative;overflow:hidden;border-bottom:1px solid var(--rule);}
+.page-hero-bg{position:absolute;inset:-8%;background:repeating-linear-gradient(90deg,transparent 0px,transparent 52px,rgba(201,168,76,.03) 52px,rgba(201,168,76,.03) 54px),repeating-linear-gradient(0deg,transparent 0px,transparent 38px,rgba(201,168,76,.02) 38px,rgba(201,168,76,.02) 40px),repeating-linear-gradient(90deg,transparent 0px,transparent 210px,rgba(201,168,76,.055) 210px,rgba(201,168,76,.055) 214px),linear-gradient(150deg,#0e0e0b 0%,#131310 30%,#0c0c0a 100%);will-change:transform;}
+.page-hero-light{position:absolute;top:-30%;right:0;width:60vw;height:120%;background:radial-gradient(ellipse at 65% 25%,rgba(201,168,76,.1) 0%,transparent 65%);pointer-events:none;transform:rotate(-12deg);}
+.page-hero-fade{position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(to top,var(--black) 0%,rgba(8,8,8,.7) 50%,transparent 100%);pointer-events:none;}
+.page-hero-vignette{position:absolute;inset:0;background:linear-gradient(to right,rgba(8,8,8,.6) 0%,transparent 60%);pointer-events:none;}
+.page-hero-content{position:relative;z-index:2;}
+.breadcrumb{display:flex;align-items:center;gap:12px;margin-bottom:32px;opacity:0;animation:fadeUp .6s ease forwards .2s;}
+.breadcrumb a{font-size:.63rem;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);text-decoration:none;transition:color .2s;}
+.breadcrumb a:hover{color:var(--gold);}
+.breadcrumb-sep{font-size:.5rem;color:var(--faint);}
+.breadcrumb span{font-size:.63rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3.5rem,7vw,6.5rem);font-weight:300;line-height:1.0;letter-spacing:-.02em;max-width:700px;opacity:0;animation:fadeUp .9s ease forwards .4s;}
+.page-title em{font-style:italic;color:var(--gold);}
+.page-sub{font-size:1rem;line-height:1.8;color:var(--muted);max-width:500px;margin-top:28px;opacity:0;animation:fadeUp .9s ease forwards .6s;}
+/* STEPS */
+.steps-section{padding:140px 64px;}
+.eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:28px;}
+.eyebrow-num{font-family:'Cormorant Garamond',serif;font-size:.85rem;color:var(--gold);opacity:.6;}
+.eyebrow-label{font-size:.63rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);}
+.steps-header{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;margin-bottom:100px;}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,3.5vw,3.4rem);font-weight:300;line-height:1.1;}
+.section-title em{font-style:italic;color:var(--gold);}
+.body-text{font-size:.93rem;line-height:1.88;color:var(--muted);}
+.steps-list{display:flex;flex-direction:column;position:relative;}
+.steps-list::before{content:'';position:absolute;left:27px;top:56px;bottom:56px;width:1px;background:linear-gradient(to bottom,var(--gold-line),rgba(201,168,76,.05));}
+.step-item{display:grid;grid-template-columns:56px 1fr;gap:48px;padding:56px 0;border-bottom:1px solid var(--rule);align-items:start;}
+.step-item:first-child{border-top:1px solid var(--rule);}
+.step-num{width:56px;height:56px;border-radius:50%;border:1px solid var(--gold-line);background:var(--black);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--gold);flex-shrink:0;position:relative;z-index:1;transition:background .3s,border-color .3s;}
+.step-item:hover .step-num{background:var(--gold-dim);border-color:var(--gold);}
+.step-body{padding-top:12px;}
+.step-tag{font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.step-title{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:300;color:var(--offwhite);margin-bottom:16px;line-height:1.1;}
+.step-desc{font-size:.88rem;line-height:1.82;color:var(--muted);max-width:620px;margin-bottom:24px;}
+.step-points{display:flex;flex-direction:column;gap:10px;}
+.step-point{display:flex;align-items:baseline;gap:12px;font-size:.82rem;color:var(--muted);}
+.step-point::before{content:'—';color:var(--gold);flex-shrink:0;}
+/* TIMELINE */
+.timeline-section{padding:0 64px 140px;}
+.timeline-inner{border:1px solid var(--rule);background:var(--surface);position:relative;overflow:hidden;}
+.timeline-inner::before{content:'';position:absolute;top:-1px;left:-1px;width:48px;height:48px;border-top:2px solid var(--gold);border-left:2px solid var(--gold);}
+.timeline-inner::after{content:'';position:absolute;bottom:-1px;right:-1px;width:48px;height:48px;border-bottom:2px solid var(--gold);border-right:2px solid var(--gold);}
+.timeline-header{padding:64px 72px 48px;border-bottom:1px solid var(--rule);}
+.timeline-label{font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:block;}
+.timeline-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;margin-bottom:8px;}
+.timeline-sub{font-size:.85rem;color:var(--muted);}
+.timeline-track{display:grid;grid-template-columns:repeat(5,1fr);padding:64px 72px;gap:0;position:relative;}
+.timeline-track::before{content:'';position:absolute;top:88px;left:100px;right:100px;height:1px;background:linear-gradient(to right,transparent,var(--gold-line) 20%,var(--gold-line) 80%,transparent);}
+.tl-item{display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;}
+.tl-dot{width:14px;height:14px;border-radius:50%;border:1px solid var(--gold);background:var(--black);margin:0 auto 20px;position:relative;z-index:2;transition:background .3s;}
+.tl-item:hover .tl-dot{background:var(--gold);}
+.tl-day{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--gold);margin-bottom:10px;}
+.tl-label{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--offwhite);margin-bottom:10px;}
+.tl-desc{font-size:.75rem;color:var(--muted);line-height:1.6;padding:0 8px;}
+/* CRE */
+.cre-section{padding:0 64px 140px;}
+.cre-header{margin-bottom:80px;}
+.cre-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);}
+.cre-card{background:var(--black);padding:52px 44px;position:relative;overflow:hidden;transition:background .3s;}
+.cre-card:hover{background:var(--surface2);}
+.cre-card::after{content:'';position:absolute;top:0;left:44px;right:44px;height:2px;background:linear-gradient(to right,var(--gold),transparent);opacity:0;transition:opacity .3s;}
+.cre-card:hover::after{opacity:1;}
+.cre-num{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:300;color:rgba(201,168,76,.12);line-height:1;margin-bottom:20px;}
+.cre-title{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:400;color:var(--offwhite);margin-bottom:14px;}
+.cre-desc{font-size:.82rem;line-height:1.75;color:var(--muted);}
+/* CTA */
+.cta-band{margin:0 64px 140px;background:var(--surface);border:1px solid var(--rule);padding:80px;display:flex;justify-content:space-between;align-items:center;gap:60px;position:relative;overflow:hidden;}
+.cta-band::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 100% at 100% 50%,rgba(201,168,76,.05) 0%,transparent 60%);pointer-events:none;}
+.cta-band::after{content:'';position:absolute;top:-1px;right:-1px;width:32px;height:32px;border-top:2px solid var(--gold);border-right:2px solid var(--gold);}
+.cta-corner-bl{position:absolute;bottom:-1px;left:-1px;width:32px;height:32px;border-bottom:2px solid var(--gold);border-left:2px solid var(--gold);}
+.cta-text{position:relative;z-index:1;}
+.cta-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:300;line-height:1.15;margin-bottom:12px;}
+.cta-title em{font-style:italic;color:var(--gold);}
+.cta-sub{font-size:.9rem;color:var(--muted);line-height:1.7;max-width:420px;}
+.cta-actions{display:flex;flex-direction:column;gap:14px;align-items:flex-end;flex-shrink:0;position:relative;z-index:1;}
+.btn-gold{display:inline-flex;align-items:center;gap:12px;background:var(--gold);color:var(--black);padding:17px 36px;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:background .25s;white-space:nowrap;}
+.btn-gold:hover{background:#d4b55e;}
+.btn-outline{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--gold-line);color:var(--gold);padding:15px 32px;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:400;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:background .25s,border-color .25s;white-space:nowrap;}
+.btn-outline:hover{background:var(--gold-dim);border-color:var(--gold);}
+/* FOOTER */
+footer{border-top:1px solid var(--rule);padding:60px 64px 48px;}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:60px;}
+.footer-brand .logo{display:block;margin-bottom:20px;}
+.footer-desc{font-size:.82rem;line-height:1.75;color:var(--faint);max-width:280px;}
+.footer-col-title{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;}
+.footer-links{display:flex;flex-direction:column;gap:12px;}
+.footer-links a{font-size:.82rem;color:var(--faint);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--offwhite);}
+.footer-bottom{border-top:1px solid var(--rule);padding-top:32px;display:flex;justify-content:space-between;align-items:center;}
+.footer-legal{font-size:.67rem;color:var(--faint);line-height:1.6;max-width:600px;}
+.footer-copy{font-size:.67rem;color:var(--faint);letter-spacing:.08em;}
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:.1s;} .reveal-delay-2{transition-delay:.2s;} .reveal-delay-3{transition-delay:.3s;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:1024px){nav,nav.scrolled{padding-left:32px;padding-right:32px;}.page-hero,.steps-section,.timeline-section,.cre-section{padding-left:32px;padding-right:32px;}.cta-band{margin:0 32px 100px;padding:56px 40px;}.steps-header{grid-template-columns:1fr;gap:28px;}.timeline-track{grid-template-columns:1fr;gap:40px;padding:48px 40px;}.timeline-track::before{display:none;}.tl-item{flex-direction:row;text-align:left;gap:24px;align-items:flex-start;}.tl-dot{flex-shrink:0;margin:6px 0 0;}.footer-top{grid-template-columns:1fr 1fr;}}
+@media(max-width:768px){.nav-links{display:none;}.page-title{font-size:3rem;}.step-item{grid-template-columns:44px 1fr;gap:24px;}.cre-grid{grid-template-columns:1fr;}.cta-band{flex-direction:column;align-items:flex-start;}.cta-actions{align-items:flex-start;}.footer-top{grid-template-columns:1fr;}.footer-bottom{flex-direction:column;gap:12px;}.timeline-header{padding:40px 32px 32px;}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav id="nav">
+  <a href="index.html" class="logo">Oath<span>.</span>Capital</a>
+  <div class="nav-links">
+    <a href="about.html">About</a>
+    <a href="how-it-works.html" class="active">How It Works</a>
+    <a href="why-us.html">Why Us</a>
+    <a href="index.html#faq">FAQ</a>
+    <a href="contact.html">Contact</a>
+    <a href="invest.html" class="nav-cta">Invest Today</a>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="page-hero-bg" id="heroBg"></div>
+  <div class="page-hero-light"></div>
+  <div class="page-hero-fade"></div>
+  <div class="page-hero-vignette"></div>
+  <div class="page-hero-content">
+    <div class="breadcrumb"><a href="index.html">Home</a><span class="breadcrumb-sep">›</span><span>How It Works</span></div>
+    <h1 class="page-title">From first call<br>to <em>first return.</em></h1>
+    <p class="page-sub">A step-by-step breakdown of how we source deals, structure investments, and deliver returns to our investors — with full transparency at every stage.</p>
+  </div>
+</section>
+
+<section class="steps-section">
+  <div class="steps-header">
+    <div>
+      <div class="eyebrow reveal"><span class="eyebrow-num">01</span><span class="eyebrow-label">The Process</span></div>
+      <h2 class="section-title reveal reveal-delay-1">Four steps.<br>Full <em>transparency.</em></h2>
+    </div>
+    <p class="body-text reveal reveal-delay-2">Every investor who works with Oath Capital goes through the same deliberate process. We do not rush capital deployment. We do not skip steps. The process exists to protect your investment — and ours.</p>
+  </div>
+  <div class="steps-list">
+    <div class="step-item reveal">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-tag">Step One</div>
+        <div class="step-title">Investor Inquiry & Strategy Call</div>
+        <p class="step-desc">The process begins with a brief strategy call with our investor relations team. This is not a sales call — it is a qualification conversation. We want to understand your goals, timeline, and risk tolerance. You will leave knowing exactly whether Oath Capital is the right fit for your portfolio.</p>
+        <div class="step-points">
+          <div class="step-point">20–30 minute call, no obligation</div>
+          <div class="step-point">We review your accreditation status and investment objectives</div>
+          <div class="step-point">You receive our full investor documentation package</div>
+          <div class="step-point">If it is not a fit, we will tell you directly</div>
+        </div>
+      </div>
+    </div>
+    <div class="step-item reveal">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-tag">Step Two</div>
+        <div class="step-title">Review the Deal & Offering Documents</div>
+        <p class="step-desc">When a deal becomes available, qualified investors receive the full offering memorandum — not a teaser deck. This includes the business plan, financial projections (base, conservative, and stress-case), market analysis, operator background, and full fee disclosure.</p>
+        <div class="step-points">
+          <div class="step-point">Complete offering memorandum with all financial details</div>
+          <div class="step-point">Three-scenario underwriting: base, conservative, and stress</div>
+          <div class="step-point">Full fee and promote structure disclosed upfront</div>
+          <div class="step-point">Q&A session available with our team before committing</div>
+        </div>
+      </div>
+    </div>
+    <div class="step-item reveal">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-tag">Step Three</div>
+        <div class="step-title">Commit Capital & Complete Subscription</div>
+        <p class="step-desc">If you decide to invest, we guide you through the subscription process — entity setup if needed, wire instructions, and legal documentation. Our team is available throughout. Most investors complete this process in under a week.</p>
+        <div class="step-points">
+          <div class="step-point">Subscription agreement and investor questionnaire</div>
+          <div class="step-point">Invest via personal account, trust, LLC, or self-directed IRA</div>
+          <div class="step-point">Secure wire transfer with written confirmation</div>
+          <div class="step-point">Dedicated support from our team at every step</div>
+        </div>
+      </div>
+    </div>
+    <div class="step-item reveal">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-tag">Step Four</div>
+        <div class="step-title">Receive Distributions & Quarterly Reports</div>
+        <p class="step-desc">Once the asset is acquired and stabilized, investors receive regular cash distributions per the waterfall structure outlined in the offering documents. Every quarter you receive a full performance report — actual figures, not summaries — showing how the asset tracks against projections.</p>
+        <div class="step-points">
+          <div class="step-point">Quarterly cash distributions (deal-dependent)</div>
+          <div class="step-point">Detailed quarterly reports: actuals vs. projections</div>
+          <div class="step-point">Annual K-1 tax documentation</div>
+          <div class="step-point">Direct line to our team throughout the hold period</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="timeline-section">
+  <div class="timeline-inner">
+    <div class="timeline-header reveal">
+      <span class="timeline-label">02 — What to Expect</span>
+      <div class="timeline-title">From inquiry to first distribution — a typical timeline.</div>
+      <p class="timeline-sub">Every deal is different, but this represents a realistic expectation for most Oath Capital investments.</p>
+    </div>
+    <div class="timeline-track reveal reveal-delay-1">
+      <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-day">Day 1</div><div class="tl-label">Inquiry & Call</div><div class="tl-desc">Submit inquiry. Strategy call within 1 business day.</div></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-day">Week 1–2</div><div class="tl-label">Deal Review</div><div class="tl-desc">Receive offering materials. Review financials. Q&A with our team.</div></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-day">Week 2–3</div><div class="tl-label">Subscription</div><div class="tl-desc">Complete documents, wire capital. Confirmation issued.</div></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-day">Month 2–6</div><div class="tl-label">Stabilization</div><div class="tl-desc">Asset acquired. Renovations and lease-up per business plan.</div></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-day">Quarter 2+</div><div class="tl-label">Distributions</div><div class="tl-desc">Quarterly cash distributions begin. Regular reports issued.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cre-section">
+  <div class="cre-header">
+    <div class="eyebrow reveal"><span class="eyebrow-num">03</span><span class="eyebrow-label">Why Commercial Real Estate</span></div>
+    <h2 class="section-title reveal reveal-delay-1" style="max-width:600px;margin-top:12px;">The case for multi-family<br>as an <em>asset class.</em></h2>
+  </div>
+  <div class="cre-grid">
+    <div class="cre-card reveal"><div class="cre-num">01</div><div class="cre-title">Inflation-resistant income</div><p class="cre-desc">Residential leases renew annually, allowing rents to adjust with inflation. Unlike fixed-income instruments, multi-family assets can grow revenue in real terms — performing well in inflationary environments where bonds and cash erode.</p></div>
+    <div class="cre-card reveal reveal-delay-1"><div class="cre-num">02</div><div class="cre-title">Durable, needs-based demand</div><p class="cre-desc">Housing is not discretionary. People need a place to live regardless of economic cycles. Multi-family assets benefit from structural demand that does not exist for retail, office, or hospitality — asset classes far more exposed to behavioral and cyclical risk.</p></div>
+    <div class="cre-card reveal reveal-delay-2"><div class="cre-num">03</div><div class="cre-title">Significant tax advantages</div><p class="cre-desc">Through cost segregation and bonus depreciation, investors can generate substantial paper losses that offset passive income. Depreciation benefits are one of the primary reasons accredited investors hold real estate alongside equities and bonds.</p></div>
+    <div class="cre-card reveal reveal-delay-1"><div class="cre-num">04</div><div class="cre-title">Operator-driven value creation</div><p class="cre-desc">Unlike publicly traded securities, private multi-family investments allow skilled operators to actively create value through renovations, operational improvements, and lease-up execution. Returns are not solely dependent on market movements.</p></div>
+    <div class="cre-card reveal reveal-delay-2"><div class="cre-num">05</div><div class="cre-title">Low correlation to public markets</div><p class="cre-desc">Private real estate does not trade daily. For investors with meaningful stock and bond exposure, multi-family real estate adds genuine diversification — real assets with real cash flow, not just a different ticker on the same market.</p></div>
+    <div class="cre-card reveal reveal-delay-3"><div class="cre-num">06</div><div class="cre-title">Long-term wealth compounding</div><p class="cre-desc">Between recurring cash flow, principal paydown through debt amortization, appreciation over a 5–7 year hold, and tax-deferred refinancing strategies, multi-family real estate compounds investor wealth through multiple simultaneous mechanisms.</p></div>
+  </div>
+</section>
+
+<div class="cta-band reveal">
+  <div class="cta-corner-bl"></div>
+  <div class="cta-text">
+    <h2 class="cta-title">Ready to take<br>the <em>first step?</em></h2>
+    <p class="cta-sub">Submit an investor inquiry and our team will be in touch within one business day to begin the conversation.</p>
+  </div>
+  <div class="cta-actions">
+    <a href="invest.html" class="btn-gold">Invest Today →</a>
+    <a href="index.html#faq" class="btn-outline">Read the FAQ →</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand"><a href="index.html" class="logo">Oath<span>.</span>Capital</a><p class="footer-desc">Private multi-family real estate for accredited investors. Institutional discipline. Aligned incentives. Transparent reporting.</p></div>
+    <div><div class="footer-col-title">Navigate</div><div class="footer-links"><a href="index.html">Home</a><a href="about.html">About</a><a href="how-it-works.html">How It Works</a><a href="why-us.html">Why Us</a><a href="index.html#faq">FAQ</a><a href="contact.html">Contact</a></div></div>
+    <div><div class="footer-col-title">Investors</div><div class="footer-links"><a href="invest.html">Invest Today</a><a href="landing-page.html">Investor Guide</a><a href="thank-you.html">Book a Call</a></div></div>
+    <div><div class="footer-col-title">Legal</div><div class="footer-links"><a href="#">Privacy Policy</a><a href="#">Terms of Use</a><a href="#">Disclosures</a></div></div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-legal">Oath Capital Group LLC. All offerings available to accredited investors only as defined by SEC Regulation D, Rule 506(c). Not an offer to sell or solicitation to buy any security. Past performance does not guarantee future results.</p>
+    <span class="footer-copy">© 2024 Oath Capital</span>
+  </div>
+</footer>
+
+<script>
+  const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  (function loop(){cursor.style.left=mx+'px';cursor.style.top=my+'px';rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+  window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>60));
+  window.addEventListener('scroll',()=>{if(scrollY<window.innerHeight*1.5)document.getElementById('heroBg').style.transform='translateY('+(scrollY*.2)+'px)';},{passive:true});
+  const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
